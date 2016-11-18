@@ -1,5 +1,5 @@
 MySQL
-=========
+++=========
 
 Installs and configures MySQL or MariaDB server.
 
