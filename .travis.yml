@@ -2,6 +2,20 @@
 language: python
 python: "2.7"
 
+rvm: 2.2
+sudo: required
+services: docker
+
+env:
+  matrix:
+  - INSTANCE=default-ubuntu-1404
+  - INSTANCE=default-centos-66
+
+before_install: curl -L https://www.getchef.com/chef/install.sh | sudo bash -s -- -P chefdk -v 0.18.30
+
+# https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142455888
+before_script: sudo iptables -L DOCKER || sudo iptables -N DOCKER
+
 # Use the new container infrastructure
 sudo: false
 
@@ -11,10 +25,9 @@ addons:
     packages:
     - python-pip
 
-install:
+install: chef exec bundle install
   # Install ansible
   - pip install ansible
-
   # Check ansible version
   - ansible --version
 
